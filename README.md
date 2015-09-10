@@ -1,6 +1,6 @@
 ![](./facebook.gif)
 
-请使用自己的配置
+请使用自己的配置  #warning 配置好Key
 
 ![](./2.png)
 ![](./3.png)
@@ -9,7 +9,7 @@
 ![](./6.png)
 
 ```
-[WMAuthManager registerApp:WMAuthAll withApplication:application withOptions:launchOptions];
+	[WMAuthManager registerApp:WMAuthAll withApplication:application withOptions:launchOptions];
     
 ```
 
@@ -26,14 +26,14 @@
     [WMAuthManager activateApp];
 
 ```
-    __weak typeof(self) weakself = self;
-    [WMAuthManager sendAuthType:WMAuthFacebook
-                      withBlock:^(BOOL isOK, NSString *openID) {
-                          [weakself login:isOK withInfo:openID withType:@"facebook"];
-                      }
-                   withUserInfo:nil
-                withUserInfoImg:^(NSString *userName, UIView *userAvatar) {
-                    [weakself showUserInfo:userName withAvatarImg:userAvatar];
-                }
-                 withController:self];
+	    __weak typeof(self) weakself = self;
+	    [WMAuthManager sendAuthType:WMAuthFacebook
+	                      withBlock:^(BOOL isOK, NSString *openID) {
+	                          [weakself login:isOK withInfo:openID withType:@"facebook"];
+	                      }
+	                   withUserInfo:nil
+	                withUserInfoImg:^(NSString *userName, UIView *userAvatar) {
+	                    [weakself showUserInfo:userName withAvatarImg:userAvatar];
+	                }
+	                 withController:self];
 ```
