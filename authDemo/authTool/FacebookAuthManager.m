@@ -25,6 +25,11 @@
 
 @implementation FacebookAuthManager
 
++ (BOOL)isAppInstalled
+{
+    return TRUE;
+}
+
 + (instancetype)manager
 {
     static id manager = nil;
@@ -33,6 +38,15 @@
         manager = [[FacebookAuthManager alloc] init];
     });
     return manager;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.loginManager = [[FBSDKLoginManager alloc] init];
+    }
+    return self;
 }
 
 + (void)activateApp
@@ -125,13 +139,5 @@
     return manager.iconUrl;
 }
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        self.loginManager = [[FBSDKLoginManager alloc] init];
-    }
-    return self;
-}
 
 @end

@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.enhance.authDemo</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -26,7 +26,9 @@
 			<key>CFBundleURLName</key>
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
-			<array/>
+			<array>
+				<string>wx37496a0e9d616484</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -34,7 +36,9 @@
 			<key>CFBundleURLName</key>
 			<string>com.weibo</string>
 			<key>CFBundleURLSchemes</key>
-			<array/>
+			<array>
+				<string>wb464916152</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -42,7 +46,9 @@
 			<key>CFBundleURLName</key>
 			<string>tencent</string>
 			<key>CFBundleURLSchemes</key>
-			<array/>
+			<array>
+				<string>tencent1104592420</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -50,7 +56,9 @@
 			<key>CFBundleURLName</key>
 			<string>facebook</string>
 			<key>CFBundleURLSchemes</key>
-			<array/>
+			<array>
+				<string>fb821119757936657</string>
+			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
@@ -58,9 +66,35 @@
 	<key>FacebookAppID</key>
 	<string>821119757936657</string>
 	<key>FacebookDisplayName</key>
-	<string>demo</string>
+	<string>托福说说</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>wtloginmqq2</string>
+		<string>mqqopensdkapiV3</string>
+		<string>mqqwpa</string>
+		<string>mqqopensdkapiV2</string>
+		<string>mqqOpensdkSSoLogin</string>
+		<string>mqq</string>
+		<string>mqzoneopensdkapiV2</string>
+		<string>mqzoneopensdkapi19</string>
+		<string>mqzoneopensdkapi</string>
+		<string>mqzoneopensdk</string>
+		<string>mqzone</string>
+		<string>sinaweibohd</string>
+		<string>sinaweibo</string>
+		<string>weibosdk</string>
+		<string>weibosdk2.5</string>
+		<string>weixin</string>
+		<string>wechat</string>
+        <string>fbauth</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -72,8 +106,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
 </plist>

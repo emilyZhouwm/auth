@@ -8,8 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "WMAuthManager.h"
 
-#warning 配置好Key
-#define WBAppKey    @""
+#define WBAppKey    @"464916152"
 
 //iOS 应用推荐使用默认授权回调页
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"

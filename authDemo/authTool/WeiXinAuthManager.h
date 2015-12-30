@@ -8,9 +8,8 @@
 #import <Foundation/Foundation.h>
 #import "WMAuthManager.h"
 
-#warning 配置好Key
-#define WXAppKey    @""
-#define WXSecret    @""
+#define WXAppKey    @"wx37496a0e9d616484"
+#define WXSecret    @"c454b6604b65cf4bb852fc4ac27cb50f"
 
 // SystemConfiguration.framework,libz.dylib,libsqlite3.0.dylib
 

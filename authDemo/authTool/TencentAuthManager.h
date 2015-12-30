@@ -8,8 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "WMAuthManager.h"
 
-#warning 配置好Key
-#define QQAppID     @""
+#define QQAppID     @"1104592420"
 
 // Security.framework”, “libiconv.dylib”，“SystemConfiguration.framework”，“CoreGraphics.Framework”、“libsqlite3.dylib”、“CoreTelephony.framework”、“libstdc++.dylib”、“libz.dylib”
 

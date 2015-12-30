@@ -506,6 +506,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/autoDemo/authTool/Lib/libTencentSDK",
@@ -537,6 +538,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.enhance.toeflSpeaking;
 				PRODUCT_NAME = authDemo;
 				PROVISIONING_PROFILE = "";
 			};
@@ -549,6 +551,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/autoDemo/authTool/Lib/libTencentSDK",
@@ -580,6 +583,7 @@
 					"\"SystemConfiguration\"",
 					"-fobjc-arc",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.enhance.toeflSpeaking;
 				PRODUCT_NAME = authDemo;
 				PROVISIONING_PROFILE = "";
 			};
