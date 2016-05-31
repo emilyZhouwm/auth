@@ -33,8 +33,8 @@
 {
     __weak typeof(self) weakself = self;
     [WMAuthManager sendAuthType:WMAuthFacebook
-                      withBlock:^(BOOL isOK, NSString *openID) {
-                          [weakself login:isOK withInfo:openID withType:@"facebook"];
+                      withBlock:^(BOOL isOK, NSString *openID, NSString *unionID) {
+                          [weakself login:isOK withInfo:openID withType:@"facebook" unionID:unionID];
                       }
                    withUserInfo:nil
                 withUserInfoImg:^(NSString *userName, UIView *userAvatar) {
@@ -47,8 +47,8 @@
 {
     __weak typeof(self) weakself = self;
     [WMAuthManager sendAuthType:WMAuthWeixin
-                      withBlock:^(BOOL isOK, NSString *openID) {
-                          [weakself login:isOK withInfo:openID withType:@"weixin"];
+                      withBlock:^(BOOL isOK, NSString *openID, NSString *unionID) {
+                          [weakself login:isOK withInfo:openID withType:@"weixin" unionID:unionID];
                       }
                    withUserInfo:^(NSString *userName, NSString *userAvatar) {
                        [weakself showUserInfo:userName withAvatar:userAvatar];
@@ -63,8 +63,8 @@
     //if ([WMAuthManager isAppInstalled:WMAuthWeibo]) {
         __weak typeof(self) weakself = self;
         [WMAuthManager sendAuthType:WMAuthWeibo
-                          withBlock:^(BOOL isOK, NSString *openID) {
-                              [weakself login:isOK withInfo:openID withType:@"sinaweibo"];
+                          withBlock:^(BOOL isOK, NSString *openID, NSString *unionID) {
+                              [weakself login:isOK withInfo:openID withType:@"sinaweibo" unionID:unionID];
                           }
                        withUserInfo:^(NSString *userName, NSString *userAvatar) {
                            [weakself showUserInfo:userName withAvatar:userAvatar];
@@ -82,8 +82,8 @@
     //if ([WMAuthManager isAppInstalled:WMAuthTencent]) {
         __weak typeof(self) weakself = self;
         [WMAuthManager sendAuthType:WMAuthTencent
-                          withBlock:^(BOOL isOK, NSString *openID) {
-                              [weakself login:isOK withInfo:openID withType:@"qq"];
+                          withBlock:^(BOOL isOK, NSString *openID, NSString *unionID) {
+                              [weakself login:isOK withInfo:openID withType:@"qq" unionID:unionID];
                           }
                        withUserInfo:^(NSString *userName, NSString *userAvatar) {
                            [weakself showUserInfo:userName withAvatar:userAvatar];
@@ -109,20 +109,24 @@
     [_avatarImg setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userAvatar]]]];
 }
 
-- (void)login:(BOOL)isOK withInfo:(NSString *)openID withType:(NSString *)type
+- (void)login:(BOOL)isOK withInfo:(NSString *)openID withType:(NSString *)type unionID:(NSString *)unionID
 {
     if (isOK) {
-        [self login:openID withType:type];
+        [self login:openID withType:type unionID:unionID];
     } else {
         //  错误提示
         _nameLbl.text = openID;
     }
 }
 
-- (void)login:(NSString *)openID withType:(NSString *)type
+- (void)login:(NSString *)openID withType:(NSString *)type unionID:(NSString *)unionID
 {
     // 可以登录了，结合后端给的链接，走后面的流程
-    _nameLbl.text = [NSString stringWithFormat:@"openID:%@", openID];
+    if (unionID.length>0 && ![unionID isEqualToString:@"0"]) {
+        _nameLbl.text = [NSString stringWithFormat:@"unionID:%@", unionID];
+    } else {
+        _nameLbl.text = [NSString stringWithFormat:@"openID:%@", openID];
+    }
 }
 
 @end

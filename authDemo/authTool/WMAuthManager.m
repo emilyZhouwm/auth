@@ -6,10 +6,10 @@
 //
 
 #import "WMAuthManager.h"
-#import "WeiXinAuthManager.h"
-#import "WeiboAuthManager.h"
-#import "TencentAuthManager.h"
-#import "FacebookAuthManager.h"
+#import "WMWeiXinManager.h"
+#import "WMWeiboManager.h"
+#import "WMTencentManager.h"
+#import "WMFacebookManager.h"
 
 #define CheckAuthType(auth, type) ((auth & (type)) == (type))
 
@@ -25,13 +25,13 @@ static WMAuthType sAuthType;
     if (CheckAuthType(sAuthType, WMAuthTencent)) {
     }
     if (CheckAuthType(sAuthType, WMAuthWeibo)) {
-        [WeiboAuthManager registerApp];
+        [WMWeiboManager registerApp];
     }
     if (CheckAuthType(sAuthType, WMAuthWeixin)) {
-        [WeiXinAuthManager registerApp];
+        [WMWeiXinManager registerApp];
     }
     if (CheckAuthType(sAuthType, WMAuthFacebook)) {
-        [FacebookAuthManager registerApp:application withOptions:launchOptions];
+        [WMFacebookManager registerApp:application withOptions:launchOptions];
     }
 }
 
@@ -41,22 +41,22 @@ static WMAuthType sAuthType;
            annotation:(id)annotation
 {
     if (CheckAuthType(sAuthType, WMAuthTencent)) {
-        if ([TencentAuthManager handleOpenURL:url]) {
+        if ([WMTencentManager handleOpenURL:url]) {
             return TRUE;
         }
     }
     if (CheckAuthType(sAuthType, WMAuthWeibo)) {
-        if ([WeiboAuthManager handleOpenURL:url]) {
+        if ([WMWeiboManager handleOpenURL:url]) {
             return TRUE;
         }
     }
     if (CheckAuthType(sAuthType, WMAuthWeixin)) {
-        if ([WeiXinAuthManager handleOpenURL:url]) {
+        if ([WMWeiXinManager handleOpenURL:url]) {
             return TRUE;
         }
     }
     if (CheckAuthType(sAuthType, WMAuthFacebook)) {
-        return [FacebookAuthManager handleOpenURL:url
+        return [WMFacebookManager handleOpenURL:url
                                       application:application
                                 sourceApplication:sourceApplication
                                        annotation:annotation];
@@ -67,7 +67,7 @@ static WMAuthType sAuthType;
 + (void)activateApp
 {
     if (CheckAuthType(sAuthType, WMAuthFacebook)) {
-        [FacebookAuthManager activateApp];
+        [WMFacebookManager activateApp];
     }
 }
 
@@ -76,19 +76,19 @@ static WMAuthType sAuthType;
     BOOL ret = FALSE;
     switch (authType) {
         case WMAuthTencent: {
-            ret = [TencentAuthManager isAppInstalled];
+            ret = [WMTencentManager isAppInstalled];
             break;
         }
         case WMAuthWeibo: {
-            ret = [WeiboAuthManager isAppInstalled];
+            ret = [WMWeiboManager isAppInstalled];
             break;
         }
         case WMAuthWeixin: {
-            ret = [WeiXinAuthManager isAppInstalled];
+            ret = [WMWeiXinManager isAppInstalled];
             break;
         }
         case WMAuthFacebook: {
-            ret = [FacebookAuthManager isAppInstalled];
+            ret = [WMFacebookManager isAppInstalled];
             break;
         }
         default:break;
@@ -97,26 +97,26 @@ static WMAuthType sAuthType;
 }
 
 + (void)sendAuthType:(WMAuthType)authType
-           withBlock:(AuthBlock)result
-        withUserInfo:(UserInfoBlock)block
-     withUserInfoImg:(UserInfoImgBlock)imgBlock//facebook专用
-      withController:(UIViewController *)viewController
+           withBlock:(WMAuthBlock)result
+        withUserInfo:(WMUserInfoBlock)block
+     withUserInfoImg:(WMUserInfoImgBlock)imgBlock//facebook专用
+      withController:(UIViewController *)vc
 {
     switch (authType) {
         case WMAuthTencent: {
-            [TencentAuthManager sendAuthWithBlock:result withUserInfo:block];
+            [WMTencentManager sendAuthWithBlock:result withUserInfo:block];
             break;
         }
         case WMAuthWeibo: {
-            [WeiboAuthManager sendAuthWithBlock:result withUserInfo:block];
+            [WMWeiboManager sendAuthWithBlock:result withUserInfo:block];
             break;
         }
         case WMAuthWeixin: {
-            [WeiXinAuthManager sendAuthWithBlock:result withUserInfo:block withController:viewController];
+            [WMWeiXinManager sendAuthWithBlock:result withUserInfo:block withController:vc];
             break;
         }
         case WMAuthFacebook: {
-            [FacebookAuthManager sendAuthWithBlock:result withUserInfoImg:imgBlock];
+            [WMFacebookManager sendAuthWithBlock:result withUserInfoImg:imgBlock];
             break;
         }
         default:break;
@@ -128,19 +128,19 @@ static WMAuthType sAuthType;
     BOOL ret = FALSE;
     switch (authType) {
         case WMAuthTencent: {
-            ret = [TencentAuthManager isUserInfo];
+            ret = [WMTencentManager isUserInfo];
             break;
         }
         case WMAuthWeibo: {
-            ret = [WeiboAuthManager isUserInfo];
+            ret = [WMWeiboManager isUserInfo];
             break;
         }
         case WMAuthWeixin: {
-            ret = [WeiXinAuthManager isUserInfo];
+            ret = [WMWeiXinManager isUserInfo];
             break;
         }
         case WMAuthFacebook: {
-            ret = [FacebookAuthManager isUserInfo];
+            ret = [WMFacebookManager isUserInfo];
             break;
         }
         default:break;
@@ -153,19 +153,19 @@ static WMAuthType sAuthType;
     NSString *ret = nil;
     switch (authType) {
         case WMAuthTencent: {
-            ret = [TencentAuthManager getUserName];
+            ret = [WMTencentManager getUserName];
             break;
         }
         case WMAuthWeibo: {
-            ret = [WeiboAuthManager getUserName];
+            ret = [WMWeiboManager getUserName];
             break;
         }
         case WMAuthWeixin: {
-            ret = [WeiXinAuthManager getUserName];
+            ret = [WMWeiXinManager getUserName];
             break;
         }
         case WMAuthFacebook: {
-            ret = [FacebookAuthManager getUserName];
+            ret = [WMFacebookManager getUserName];
             break;
         }
         default:break;
@@ -178,15 +178,15 @@ static WMAuthType sAuthType;
     NSString *ret = nil;
     switch (authType) {
         case WMAuthTencent: {
-            ret = [TencentAuthManager getUserAvatar];
+            ret = [WMTencentManager getUserAvatar];
             break;
         }
         case WMAuthWeibo: {
-            ret = [WeiboAuthManager getUserAvatar];
+            ret = [WMWeiboManager getUserAvatar];
             break;
         }
         case WMAuthWeixin: {
-            ret = [WeiXinAuthManager getUserAvatar];
+            ret = [WMWeiXinManager getUserAvatar];
             break;
         }
             // 没有

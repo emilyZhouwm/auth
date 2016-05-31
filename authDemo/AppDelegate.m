@@ -19,6 +19,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    // 注册
     [WMAuthManager registerApp:WMAuthAll withApplication:application withOptions:launchOptions];
     
     return YES;
@@ -27,6 +28,7 @@
 #pragma mark -
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+    // 回调
     return [WMAuthManager handleOpenURL:url
                             application:application
                       sourceApplication:sourceApplication
@@ -49,6 +51,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    // 恢复
     [WMAuthManager activateApp];
 }
 
