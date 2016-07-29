@@ -69,6 +69,7 @@
 	<string>托福说说</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+        <string>mqqapi</string>
 		<string>wtloginmqq2</string>
 		<string>mqqopensdkapiV3</string>
 		<string>mqqwpa</string>

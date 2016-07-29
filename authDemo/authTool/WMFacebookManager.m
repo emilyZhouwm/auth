@@ -9,7 +9,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 
-@interface WMFacebookManager()
+@interface WMFacebookManager ()
 
 @property (nonatomic, assign) BOOL isOK;
 @property (nonatomic, copy) NSString *nickName;
@@ -68,42 +68,30 @@
     manager.respBlcok = resultBlock;
     manager.userInfoImgBlcok = infoBlock;
 
-    [manager.loginManager logInWithReadPermissions: @[@"public_profile"]//@[@"email"]
+    [manager.loginManager logInWithReadPermissions:@[@"public_profile"] //@[@"email"]
                                            handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
         if (error) {
             NSLog(@"Facebook error:%@", error);
             if (resultBlock) {
-                resultBlock(NO, @"Facebook登录失败", @"0");
+                resultBlock([NSError errorWithDomain:@"Facebook登录失败" code:error.code userInfo:nil], @"0", @"0");
             }
         } else if (result.isCancelled) {
             if (resultBlock) {
-                resultBlock(NO, @"用户取消Facebook登录", @"0");
+                resultBlock([NSError errorWithDomain:@"用户取消Facebook登录" code:-1 userInfo:nil], @"0", @"0");
             }
         } else {
             if ([FBSDKAccessToken currentAccessToken]) {
                 if (resultBlock) {
-                    resultBlock(YES, [[FBSDKAccessToken currentAccessToken] userID], @"0");
+                    resultBlock(nil, [[FBSDKAccessToken currentAccessToken] userID], @"0");
                 }
                 if (infoBlock) {
                     FBSDKProfile *profile = [FBSDKProfile currentProfile];
                     if (profile) {
                         FBSDKProfilePictureView *avatarImg = [[FBSDKProfilePictureView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
                         [avatarImg setProfileID:profile.userID];
-                    
+
                         infoBlock(profile.name, avatarImg);
                     }
-                    //NSString *avatar = [profile imagePathForPictureMode:FBSDKProfilePictureModeSquare size:CGSizeMake(100, 100)];
-//                    NSString *tStr = [NSString stringWithFormat:@"me/%@/picture", profile.userID];
-//                    
-//                    manager.ret = [[FBSDKGraphRequest alloc] initWithGraphPath:tStr parameters:@{@"type" : @"square",
-//                                                                                                 @"width" : @"100",
-//                                                                                                 @"height" : @"100"}];
-//                    [manager.ret startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-//                        if (!error) {
-//                        //UIImage *ii = [UIImage imageWithData:result];
-//                        //infoBlock(profile.name, avatarImg);
-//                        }
-//                    }];
                 }
             }
         }
@@ -115,10 +103,10 @@
     sourceApplication:(NSString *)sourceApplication
            annotation:(id)annotation
 {
-    return  [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                           openURL:url
-                                                 sourceApplication:sourceApplication
-                                                        annotation:annotation];
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation];
 }
 
 + (BOOL)isUserInfo
@@ -138,6 +126,5 @@
     WMFacebookManager *manager = [WMFacebookManager manager];
     return manager.iconUrl;
 }
-
 
 @end

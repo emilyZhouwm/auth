@@ -9,8 +9,7 @@
 #import "WeiboSDK.h"
 #import "WeiboUser.h"
 
-@interface WMWeiboManager() <WeiboSDKDelegate>
-
+@interface WMWeiboManager () <WeiboSDKDelegate>
 
 @property (nonatomic, assign) BOOL isOK;
 @property (nonatomic, copy) NSString *nickName;
@@ -32,20 +31,22 @@
 {
     WMWeiboManager *manager = [WMWeiboManager manager];
     manager.shareBlock = result;
-    
+
     WBMessageObject *msg = [WBMessageObject message];
     msg.text = [NSString stringWithFormat:@"#%@分享#%@ (分享自 @%@) %@", title, description, title, url];
-    
-    WBImageObject *img = [WBImageObject object];
-    img.imageData = image;
-    msg.imageObject = img;
-    
+
+    if (image.length > 0) {
+        WBImageObject *img = [WBImageObject object];
+        img.imageData = image;
+        msg.imageObject = img;
+    }
+
     WBAuthorizeRequest *authRequest = [WBAuthorizeRequest request];
     authRequest.redirectURI = @"https://api.weibo.com/oauth2/default.html";
     authRequest.scope = @"all";
     authRequest.shouldShowWebViewForAuthIfCannotSSO = YES;
     authRequest.shouldOpenWeiboAppInstallPageIfNotInstalled = NO;
-    
+
     WBSendMessageToWeiboRequest *request = [WBSendMessageToWeiboRequest requestWithMessage:msg authInfo:authRequest access_token:nil];
     request.shouldOpenWeiboAppInstallPageIfNotInstalled = NO;
     [WeiboSDK sendRequest:request];
@@ -79,7 +80,7 @@
     WMWeiboManager *manager = [WMWeiboManager manager];
     manager.respBlcok = result;
     manager.userInfoBlcok = block;
-    
+
     WBAuthorizeRequest *request = [WBAuthorizeRequest request];
     request.redirectURI = kRedirectURI;
     //request.scope = @"all";
@@ -114,7 +115,6 @@
 // 收到一个来自微博客户端程序的请求
 - (void)didReceiveWeiboRequest:(WBBaseRequest *)request
 {
-    NSLog(@"didReceiveWeiboRequest");
 }
 
 // 收到一个来自微博客户端程序的响应
@@ -122,27 +122,20 @@
 {
     if ([response isKindOfClass:WBAuthorizeResponse.class]) {
         if (response.statusCode == WeiboSDKResponseStatusCodeSuccess) {
+            WBAuthorizeResponse *resp = (WBAuthorizeResponse *)response;
             if (self.respBlcok) {
-                self.respBlcok(YES, [(WBAuthorizeResponse *)response userID], @"0");
+                self.respBlcok(nil, [resp userID], @"0");
             }
-            __weak typeof(self) weakself = self;
-            [WBHttpRequest requestForUserProfile:[(WBAuthorizeResponse *)response userID]
-                                 withAccessToken:[(WBAuthorizeResponse *)response accessToken]
-                              andOtherProperties:nil
-                                           queue:nil
-                           withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-                               if (!error) {
-                                   [weakself getUserInfo:result];
-                               }
-                               
-                           }];
+            if (self.userInfoBlcok) {
+                [self getUserInfo:resp];
+            }
         } else if (response.statusCode == WeiboSDKResponseStatusCodeUserCancel) {
             if (self.respBlcok) {
-                self.respBlcok(NO, @"用户取消微博授权", @"0");
+                self.respBlcok([NSError errorWithDomain:@"用户取消微博授权" code:response.statusCode userInfo:nil], @"0", @"0");
             }
         } else {//if (response.statusCode == WeiboSDKResponseStatusCodeAuthDeny) {
             if (self.respBlcok) {
-                self.respBlcok(NO, @"微博授权失败", @"0");
+                self.respBlcok([NSError errorWithDomain:@"微博授权失败" code:response.statusCode userInfo:nil], @"0", @"0");
             }
         }
     } else if ([response isKindOfClass:WBSendMessageToWeiboResponse.class]) {
@@ -162,7 +155,23 @@
     }
 }
 
-- (void)getUserInfo:(WeiboUser *)userInfo
+- (void)getUserInfo:(WBAuthorizeResponse *)resp
+{
+    __weak typeof(self) weakself = self;
+    [WBHttpRequest requestForUserProfile:[resp userID]
+                         withAccessToken:[resp accessToken]
+                      andOtherProperties:nil
+                                   queue:nil
+                   withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+        if (!error) {
+            [weakself parseUserInfo:result];
+        } else {
+            weakself.isOK = FALSE;
+        }
+    }];
+}
+
+- (void)parseUserInfo:(WeiboUser *)userInfo
 {
     self.isOK = TRUE;
     self.nickName = userInfo.name;

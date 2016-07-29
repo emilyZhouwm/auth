@@ -25,4 +25,16 @@
 + (NSString *)getUserName;
 + (NSString *)getUserAvatar;
 
+///  分享到QQ
+///  @param title       标题，最长128个字符
+///  @param description 简要描述，最长512个字符
+///  @param image       配一张缩略图，最大1M字节
+///  @param url         指向链接，必填，最长512个字符
+///  @param result      回调是否成功，error为nil成功，失败error.domain原因
++ (void)shareQQ:(NSString *)title
+    description:(NSString *)description
+          thumb:(NSData *)image
+            url:(NSString *)url
+         result:(WMShareBlock)result;
+
 @end

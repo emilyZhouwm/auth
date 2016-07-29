@@ -57,9 +57,9 @@ static WMAuthType sAuthType;
     }
     if (CheckAuthType(sAuthType, WMAuthFacebook)) {
         return [WMFacebookManager handleOpenURL:url
-                                      application:application
-                                sourceApplication:sourceApplication
-                                       annotation:annotation];
+                                    application:application
+                              sourceApplication:sourceApplication
+                                     annotation:annotation];
     }
     return FALSE;
 }
@@ -91,7 +91,7 @@ static WMAuthType sAuthType;
             ret = [WMFacebookManager isAppInstalled];
             break;
         }
-        default:break;
+        default: break;
     }
     return ret;
 }
@@ -99,7 +99,7 @@ static WMAuthType sAuthType;
 + (void)sendAuthType:(WMAuthType)authType
            withBlock:(WMAuthBlock)result
         withUserInfo:(WMUserInfoBlock)block
-     withUserInfoImg:(WMUserInfoImgBlock)imgBlock//facebook专用
+     withUserInfoImg:(WMUserInfoImgBlock)imgBlock// facebook专用
       withController:(UIViewController *)vc
 {
     switch (authType) {
@@ -119,7 +119,63 @@ static WMAuthType sAuthType;
             [WMFacebookManager sendAuthWithBlock:result withUserInfoImg:imgBlock];
             break;
         }
-        default:break;
+        default: break;
+    }
+}
+
++ (void)sendAuthType:(WMAuthType)authType
+           withBlock:(WMAuthBlock)result
+      withController:(UIViewController *)vc
+{
+    switch (authType) {
+        case WMAuthTencent: {
+            [WMTencentManager sendAuthWithBlock:result withUserInfo:nil];
+            break;
+        }
+        case WMAuthWeibo: {
+            [WMWeiboManager sendAuthWithBlock:result withUserInfo:nil];
+            break;
+        }
+        case WMAuthWeixin: {
+            [WMWeiXinManager sendAuthWithBlock:result withUserInfo:nil withController:vc];
+            break;
+        }
+        case WMAuthFacebook: {
+            [WMFacebookManager sendAuthWithBlock:result withUserInfoImg:nil];
+            break;
+        }
+        default: break;
+    }
+}
+
++ (void)shareAuthType:(WMAuthType)authType
+                title:(NSString *)title
+          description:(NSString *)description
+                thumb:(UIImage *)image
+                  url:(NSString *)url
+               result:(WMShareBlock)result
+{
+    switch (authType) {
+        case WMAuthTencent: {
+            [WMTencentManager shareQQ:title description:description thumb:image ? UIImagePNGRepresentation(image) : nil url:url result:result];
+            break;
+        }
+        case WMAuthWeibo: {
+            [WMWeiboManager shareWB:title description:description thumb:image ? UIImagePNGRepresentation(image) : nil url:url result:result];
+            break;
+        }
+        case WMAuthWeixin: {
+            if (description) {
+                [WMWeiXinManager shareFirend:title description:description thumb:image url:url result:result];
+            } else {
+                [WMWeiXinManager shareFirends:title thumb:image url:url result:result];
+            }
+            break;
+        }
+        case WMAuthFacebook: {
+            break;
+        }
+        default: break;
     }
 }
 
@@ -143,7 +199,7 @@ static WMAuthType sAuthType;
             ret = [WMFacebookManager isUserInfo];
             break;
         }
-        default:break;
+        default: break;
     }
     return ret;
 }
@@ -168,7 +224,7 @@ static WMAuthType sAuthType;
             ret = [WMFacebookManager getUserName];
             break;
         }
-        default:break;
+        default: break;
     }
     return ret;
 }
@@ -189,12 +245,12 @@ static WMAuthType sAuthType;
             ret = [WMWeiXinManager getUserAvatar];
             break;
         }
-            // 没有
+        // 没有
 //        case WMAuthFacebook: {
 //            ret = [FacebookAuthManager getUserAvatar];
 //            break;
 //        }
-        default:break;
+        default: break;
     }
     return ret;
 }

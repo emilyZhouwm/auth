@@ -6,6 +6,7 @@
 #####欢迎关注，提交修改意见。
 
 ![](./facebook.gif)
+![](./1.jpg)
 
 请使用自己的配置  #warning 配置好Key
 
@@ -33,16 +34,24 @@
     [WMAuthManager activateApp];
 
 ```
-	    __weak typeof(self) weakself = self;
-	    [WMAuthManager sendAuthType:WMAuthFacebook
-	                      withBlock:^(BOOL isOK, NSString *openID) {
-	                          [weakself login:isOK withInfo:openID withType:@"facebook"];
-	                      }
-	                   withUserInfo:nil
-	                withUserInfoImg:^(NSString *userName, UIView *userAvatar) {
-	                    [weakself showUserInfo:userName withAvatarImg:userAvatar];
-	                }
-	                 withController:self];
+    __weak typeof(self) weakself = self;
+    [WMAuthManager sendAuthType:WMAuthWeixin withBlock:^(NSError *error, NSString *openID, NSString *unionID) {
+        [weakself getAuth:error openID:openID unionID:unionID withType:@"weixin"];
+    } withUserInfo:^(NSString *userName, NSString *userAvatar) {
+        [weakself showUserInfo:userName withAvatar:userAvatar];
+    } withUserInfoImg:nil withController:self];
+
+```
+
+```
+    [WMAuthManager shareAuthType:WMAuthWeixin title:@"分享标题" description:@"分享描述" thumb:[UIImage imageNamed:@"share_logo.jpg"] url:@"http://www.baidu.com" result:^(NSError *error) {
+        if (error) {
+            //[weakself showWarning:error.domain];
+        } else {
+            //[weakself showOK:@"已分享到微信好友"];
+        }
+    }];
+
 ```
 
 #9.0适配
@@ -54,6 +63,7 @@
 
     <key>LSApplicationQueriesSchemes</key>
     <array>
+    <string>mqqapi</string>
     <string>wtloginmqq2</string>
     <string>mqqopensdkapiV3</string>
     <string>mqqwpa</string>

@@ -11,11 +11,10 @@
 
 #import "WMNetwork.h"
 
-typedef void(^NetSuccessBlock)(NSString *resultString);
-typedef void(^NetFailedBlock)(NSString *resultString);
+typedef void (^NetSuccessBlock)(NSString *resultString);
+typedef void (^NetFailedBlock)(NSString *resultString);
 
-@interface WMWeiXinManager() <WXApiDelegate>
-
+@interface WMWeiXinManager () <WXApiDelegate>
 
 @property (nonatomic, assign) BOOL isOK;
 @property (nonatomic, copy) NSString *nickName;
@@ -39,12 +38,11 @@ typedef void(^NetFailedBlock)(NSString *resultString);
 }
 
 + (void)shareFirends:(NSString *)title
-         description:(NSString *)description
                thumb:(UIImage *)image
                  url:(NSString *)url
               result:(WMShareBlock)result
 {
-    [WMWeiXinManager share:title des:description thumb:image url:url isFriends:YES result:result];
+    [WMWeiXinManager share:title des:@"" thumb:image url:url isFriends:YES result:result];
 }
 
 + (void)share:(NSString *)title
@@ -56,23 +54,23 @@ typedef void(^NetFailedBlock)(NSString *resultString);
 {
     WMWeiXinManager *manager = [WMWeiXinManager manager];
     manager.shareBlock = result;
-    
+
     WXMediaMessage *msg = [WXMediaMessage message];
     msg.title = title;
     msg.description = description;
     [msg setThumbImage:image];
-    
+
     WXWebpageObject *webPage = [WXWebpageObject object];
     webPage.webpageUrl = url;
     msg.mediaObject = webPage;
-    
+
     SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
     req.bText = NO;
     req.message = msg;
     if (isFriends) {
-        req.scene = WXSceneTimeline;// 朋友圈
+        req.scene = WXSceneTimeline;    // 朋友圈
     } else {
-        req.scene = WXSceneSession;// 好友
+        req.scene = WXSceneSession;     // 好友
     }
     [WXApi sendReq:req];
 }
@@ -106,12 +104,12 @@ typedef void(^NetFailedBlock)(NSString *resultString);
     WMWeiXinManager *manager = [WMWeiXinManager manager];
     manager.respBlcok = result;
     manager.userInfoBlcok = block;
-    
+
     SendAuthReq *req = [[SendAuthReq alloc] init];
     req.scope = @"snsapi_userinfo";
     req.state = @"413e6ad8cae81487d315780b0a6717c0";
     //req.openID = WXAppKey;
-    
+
     [WXApi sendAuthReq:req viewController:viewController delegate:manager];
 }
 
@@ -141,27 +139,26 @@ typedef void(^NetFailedBlock)(NSString *resultString);
 #pragma mark -
 - (void)onReq:(BaseReq *)req
 {
-    NSLog(@"onReq");
 }
 
 - (void)onResp:(BaseResp *)resp
 {
-    if([resp isKindOfClass:[SendAuthResp class]]) {
+    if ([resp isKindOfClass:[SendAuthResp class]]) {
         if (resp.errCode == WXSuccess) {
             // temp.state 慎重的话校验state
             [self getOpenIDNetwork:((SendAuthResp *)resp).code];
         } else {
             if (resp.errCode == WXErrCodeAuthDeny) {
                 if (self.respBlcok) {
-                    self.respBlcok(NO, @"用户拒绝微信授权", @"0");
+                    self.respBlcok([NSError errorWithDomain:@"用户拒绝微信授权" code:resp.errCode userInfo:nil], @"0", @"0");
                 }
             } else if (resp.errCode == WXErrCodeUserCancel) {
                 if (self.respBlcok) {
-                    self.respBlcok(NO, @"用户取消微信授权", @"0");
+                    self.respBlcok([NSError errorWithDomain:@"用户取消微信授权" code:resp.errCode userInfo:nil], @"0", @"0");
                 }
             } else {
                 if (self.respBlcok) {
-                    self.respBlcok(NO, @"微信授权失败", @"0");
+                    self.respBlcok([NSError errorWithDomain:@"微信授权失败" code:resp.errCode userInfo:nil], @"0", @"0");
                 }
             }
         }
@@ -190,30 +187,40 @@ typedef void(^NetFailedBlock)(NSString *resultString);
                               @"grant_type" : @"authorization_code"};
     __weak __typeof(self) weakself = self;
     [WMNetwork requestWithFullUrl:@"https://api.weixin.qq.com/sns/oauth2/access_token?" withParams:postDic andBlock:^(id data, NSError *error) {
-           if (error) {
-               if (weakself.respBlcok) {
-                   weakself.respBlcok(NO, @"微信授权失败，网络错误", @"0");
-               }
-           } else {
-               // 优先解析错误码 {"errcode":40029,"errmsg":"invalid code"}
-               if ([data objectForKey:@"errcode"]) {
-                   // 出现错误
-                   NSString *errmsg = [data objectForKey:@"errmsg"];
-                   if (weakself.respBlcok) {
-                       weakself.respBlcok(NO, [NSString stringWithFormat:@"微信授权失败，%@", errmsg], @"0");
-                   }
-               } else {
-                   //if (weakself.respBlcok) {
-                   //    weakself.respBlcok(YES, [data objectForKey:@"openid"], @"0");
-                   //}
-                   // 假如需要的是unionID
-                   [weakself getUnionIDWithOpenID:[data objectForKey:@"openid"]
-                                            token:[data objectForKey:@"access_token"]];
-                   // 授权成功，取用户信息
-                   [self getUserInfo:[data objectForKey:@"openid"] andToken:[data objectForKey:@"access_token"]];
-               }
-           }
-       }];
+        if (error) {
+            if (weakself.respBlcok) {
+                weakself.respBlcok([NSError errorWithDomain:@"微信授权失败，网络错误" code:error.code userInfo:nil], @"0", @"0");
+            }
+        } else {
+            [weakself parseOpenID:data];
+        }
+    }];
+}
+
+- (void)parseOpenID:(NSDictionary *)dic
+{
+    // 优先解析错误码 {"errcode":40029,"errmsg":"invalid code"}
+    if ([dic objectForKey:@"errcode"]) {
+        // 出现错误
+        NSString *errmsg = [dic objectForKey:@"errmsg"];
+        NSLog(@"%@", errmsg);
+        NSInteger code = [[dic objectForKey:@"errcode"] integerValue];
+        if (self.respBlcok) {
+            self.respBlcok([NSError errorWithDomain:@"微信授权失败" code:code userInfo:nil], @"0", @"0");
+        }
+    } else {
+        //if (self.respBlcok) {
+        //    self.respBlcok(YES, [dic objectForKey:@"openid"], @"0");
+        //}
+        // 假如需要的是unionID
+        [self getUnionIDWithOpenID:[dic objectForKey:@"openid"]
+                             token:[dic objectForKey:@"access_token"]];
+        if (self.userInfoBlcok) {
+            // 授权成功，取用户信息
+            [self getUserInfo:[dic objectForKey:@"openid"]
+                     andToken:[dic objectForKey:@"access_token"]];
+        }
+    }
 }
 
 - (void)getUnionIDWithOpenID:(NSString *)openID token:(NSString *)token
@@ -225,23 +232,30 @@ typedef void(^NetFailedBlock)(NSString *resultString);
     [WMNetwork requestWithFullUrl:@"https://api.weixin.qq.com/sns/userinfo?" withParams:postDic andBlock:^(id data, NSError *error) {
         if (error) {
             if (weakself.respBlcok) {
-                weakself.respBlcok(NO, @"微信授权失败，网络错误", @"0");
+                weakself.respBlcok([NSError errorWithDomain:@"微信授权失败，网络错误" code:error.code userInfo:nil], @"0", @"0");
             }
         } else {
-            // 优先解析错误码 {"errcode":40029,"errmsg":"invalid code"}
-            if ([data objectForKey:@"errcode"]) {
-                // 出现错误
-                NSString *errmsg = [data objectForKey:@"errmsg"];
-                if (weakself.respBlcok) {
-                    weakself.respBlcok(NO, [NSString stringWithFormat:@"微信授权失败，%@", errmsg], @"0");
-                }
-            } else {
-                if (weakself.respBlcok) {
-                    weakself.respBlcok(YES, [data objectForKey:@"openid"], [data objectForKey:@"unionid"]);
-                }
-            }
+            [weakself parseUnionID:data];
         }
     }];
+}
+
+- (void)parseUnionID:(NSDictionary *)dic
+{
+    // 优先解析错误码 {"errcode":40029,"errmsg":"invalid code"}
+    if ([dic objectForKey:@"errcode"]) {
+        // 出现错误
+        NSString *errmsg = [dic objectForKey:@"errmsg"];
+        NSLog(@"%@", errmsg);
+        NSInteger code = [[dic objectForKey:@"errcode"] integerValue];
+        if (self.respBlcok) {
+            self.respBlcok([NSError errorWithDomain:@"微信授权失败" code:code userInfo:nil], @"0", @"0");
+        }
+    } else {
+        if (self.respBlcok) {
+            self.respBlcok(nil, [dic objectForKey:@"openid"], [dic objectForKey:@"unionid"]);
+        }
+    }
 }
 
 - (void)getUserInfo:(NSString *)openid andToken:(NSString *)token
@@ -255,6 +269,7 @@ typedef void(^NetFailedBlock)(NSString *resultString);
             // 优先解析错误码 {"errcode":40029,"errmsg":"invalid code"}
             if ([data objectForKey:@"errcode"]) {
                 // 出现错误
+                weakself.isOK = FALSE;
             } else {
                 weakself.isOK = TRUE;
                 weakself.nickName = [data objectForKey:@"nickname"];
