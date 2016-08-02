@@ -32,6 +32,7 @@
     [WMAuthManager activateApp];
 
 ```
+    4、授权
     __weak typeof(self) weakself = self;
     [WMAuthManager sendAuthType:WMAuthWeixin withBlock:^(NSError *error, NSString *openID, NSString *unionID) {
         [weakself getAuth:error openID:openID unionID:unionID withType:@"weixin"];
@@ -39,9 +40,7 @@
         [weakself showUserInfo:userName withAvatar:userAvatar];
     } withUserInfoImg:nil withController:self];
 
-```
-
-```
+    5、分享
     [WMAuthManager shareAuthType:WMAuthWeixin title:@"分享标题" description:@"分享描述" thumb:[UIImage imageNamed:@"share_logo.jpg"] url:@"http://www.baidu.com" result:^(NSError *error) {
         if (error) {
             //[weakself showWarning:error.domain];
@@ -84,7 +83,7 @@
 
 有一个问题需要注意：如果你的工程使用了Aspects，那么需要检查用户手机是否安装QQ，否则弹QQ SDK提供的web登录授权时，Aspects会抛出一个异常，造成闪退
 
-```
+```oc
     ///  0、用户手机是否安装对应第三方
     ///  @param authType 四者其一
     ///  @return 安装返回true，未安装返回false
