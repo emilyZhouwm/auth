@@ -515,7 +515,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/authDemo/authTool/Lib/libWeChatSDK",
-					"$(PROJECT_DIR)/authDemo/authTool/Lib/libWeiboSDK",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -555,7 +554,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/authDemo/authTool/Lib/libWeChatSDK",
-					"$(PROJECT_DIR)/authDemo/authTool/Lib/libWeiboSDK",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
