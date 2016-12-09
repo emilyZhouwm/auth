@@ -37,5 +37,11 @@
           thumb:(NSData *)image
             url:(NSString *)url
          result:(WMShareBlock)result;
-
+///  分享图片到QQ
+///  @param image       大小不能超过5M，其他同上
++ (void)shareImg:(NSData *)image
+           title:(NSString *)title
+     description:(NSString *)description
+           thumb:(NSData *)thumb
+          result:(WMShareBlock)result;
 @end

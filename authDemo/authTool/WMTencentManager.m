@@ -26,30 +26,38 @@
 
 @implementation WMTencentManager
 
++ (void)shareImg:(NSData *)image
+           title:(NSString *)title
+     description:(NSString *)description
+           thumb:(NSData *)thumb
+          result:(WMShareBlock)result
+{
+    WMTencentManager *manager = [WMTencentManager manager];
+    manager.msgRespBlcok = result;
+    
+    QQApiImageObject *imgObj = [QQApiImageObject objectWithData:image previewImageData:thumb title:title description:description];
+    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:imgObj];
+    
+    QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+    [manager handleSendResult:sent];
+}
+
 + (void)shareQQ:(NSString *)title
     description:(NSString *)description
           thumb:(NSData *)image
             url:(NSString *)url
          result:(WMShareBlock)result
 {
-    if (!image) {
-        if (result) {
-            result([NSError errorWithDomain:@"图片未知" code:1 userInfo:nil]);
-        }
-        return;
-    }
     WMTencentManager *manager = [WMTencentManager manager];
     manager.msgRespBlcok = result;
 
     QQApiNewsObject *newsObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:url] title:title description:description previewImageData:image];
-
     SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
 
-    //将内容分享到qq
+    // 将内容分享到qq
     QQApiSendResultCode sent = [QQApiInterface sendReq:req];
-    //将内容分享到qzone
+    // 将内容分享到qzone
     //QQApiSendResultCode sent = [QQApiInterface SendReqToQZone:req];
-
     [manager handleSendResult:sent];
 }
 

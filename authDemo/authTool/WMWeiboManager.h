@@ -31,7 +31,7 @@
 + (NSString *)getUserName;
 + (NSString *)getUserAvatar;
 
-///  分享到微博
+///  分享链接、图片到微博
 ///  @param title  想要表达的文字
 ///  @param image  配一张缩略图，大小不能超过10M
 ///  @param url    指向链接

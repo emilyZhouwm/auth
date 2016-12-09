@@ -11,6 +11,7 @@
 		EB34572D1DFA851000EA5933 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB34572C1DFA851000EA5933 /* CFNetwork.framework */; };
 		EB34573E1DFA955700EA5933 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB3457311DFA955700EA5933 /* libWeiboSDK.a */; };
 		EB34573F1DFA955700EA5933 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EB34573B1DFA955700EA5933 /* WeiboSDK.bundle */; };
+		EB3457421DFAAF4600EA5933 /* WMEmail.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3457411DFAAF4600EA5933 /* WMEmail.m */; };
 		EB42A5CC1CFD3BFD005A5EB5 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = EB42A5C71CFD3BFD005A5EB5 /* README.txt */; };
 		EB42A5D21CFD3C86005A5EB5 /* WMNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = EB42A5D01CFD3C86005A5EB5 /* WMNetwork.m */; };
 		EB42A5E41CFD5FF6005A5EB5 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB42A5C61CFD3BFD005A5EB5 /* libWeChatSDK.a */; };
@@ -60,6 +61,8 @@
 		EB34573B1DFA955700EA5933 /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
 		EB34573C1DFA955700EA5933 /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
 		EB34573D1DFA955700EA5933 /* WeiboUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboUser.h; sourceTree = "<group>"; };
+		EB3457401DFAAF4600EA5933 /* WMEmail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMEmail.h; sourceTree = "<group>"; };
+		EB3457411DFAAF4600EA5933 /* WMEmail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMEmail.m; sourceTree = "<group>"; };
 		EB42A5C61CFD3BFD005A5EB5 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		EB42A5C71CFD3BFD005A5EB5 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		EB42A5C81CFD3BFD005A5EB5 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
@@ -258,6 +261,8 @@
 			isa = PBXGroup;
 			children = (
 				EBEA69731B04552300C6824C /* Lib */,
+				EB3457401DFAAF4600EA5933 /* WMEmail.h */,
+				EB3457411DFAAF4600EA5933 /* WMEmail.m */,
 				EBEA69EA1B04987D00C6824C /* WMAuthManager.h */,
 				EBEA69EB1B04987D00C6824C /* WMAuthManager.m */,
 				EB5D8DE31B04BE7C00C054AD /* WMFacebookManager.h */,
@@ -419,6 +424,7 @@
 			files = (
 				EBEA694C1B04542400C6824C /* ViewController.m in Sources */,
 				EBEA69701B04545900C6824C /* WMTencentManager.m in Sources */,
+				EB3457421DFAAF4600EA5933 /* WMEmail.m in Sources */,
 				EBEA69491B04542400C6824C /* AppDelegate.m in Sources */,
 				EBEA69EC1B04987D00C6824C /* WMAuthManager.m in Sources */,
 				EBEA69711B04545900C6824C /* WMWeiboManager.m in Sources */,

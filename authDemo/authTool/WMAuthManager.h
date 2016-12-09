@@ -77,7 +77,7 @@ typedef void (^WMShareBlock)(NSError *error);
            withBlock:(WMAuthBlock)result
       withController:(UIViewController *)vc;
 
-///  5、分享到对应第三方
+///  5、分享链接到对应第三方
 ///  @param authType    四种其一，以下参数的limit详见各自接口描述
 ///  @param title       标题
 ///  @param description 简要描述，对应微信时，nil朋友圈，非nil微信好友

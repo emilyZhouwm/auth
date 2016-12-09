@@ -75,6 +75,87 @@ typedef void (^NetFailedBlock)(NSString *resultString);
     [WXApi sendReq:req];
 }
 
++ (void)shareMusic:(NSString *)title
+               des:(NSString *)description
+             thumb:(UIImage *)image
+               url:(NSString *)url
+         isFriends:(BOOL)isFriends
+            result:(WMShareBlock)result
+{
+    WMWeiXinManager *manager = [WMWeiXinManager manager];
+    manager.shareBlock = result;
+    
+    WXMediaMessage *msg = [WXMediaMessage message];
+    msg.title = title;
+    msg.description = description;
+    [msg setThumbImage:image];
+    
+    WXMusicObject *musicObj = [WXMusicObject object];
+    musicObj.musicUrl = url;
+    //musicObj.musicDataUrl = url;
+    msg.mediaObject = musicObj;
+    
+    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+    req.bText = NO;
+    req.message = msg;
+    if (isFriends) {
+        req.scene = WXSceneTimeline;// 朋友圈
+    } else {
+        req.scene = WXSceneSession; // 好友
+    }
+    [WXApi sendReq:req];
+}
+
+// 分享文件
++ (void)shareFile:(NSData *)file
+           result:(WMShareBlock)result
+{
+    WMWeiXinManager *manager = [WMWeiXinManager manager];
+    manager.shareBlock = result;
+    
+    WXMediaMessage *msg = [WXMediaMessage message];
+    
+    WXFileObject *fileObj = [WXFileObject object];
+    fileObj.fileData = file;
+    fileObj.fileExtension = @"mp3";
+    msg.mediaObject = fileObj;
+    
+    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+    req.bText = NO;
+    req.message = msg;
+    req.scene = WXSceneSession; // 好友
+    [WXApi sendReq:req];
+}
+
+// 分享图片
++ (void)shareImg:(NSData *)image
+           thumb:(UIImage *)thumb
+       isFriends:(BOOL)isFriends
+          result:(WMShareBlock)result
+{
+    WMWeiXinManager *manager = [WMWeiXinManager manager];
+    manager.shareBlock = result;
+    
+    WXMediaMessage *msg = [WXMediaMessage message];
+    if (thumb) {
+        [msg setThumbImage:thumb];
+    }
+    
+    WXImageObject *imgObject = [WXImageObject object];
+    imgObject.imageData = image;
+    msg.mediaObject = imgObject;
+    
+    SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+    req.bText = NO;
+    req.message = msg;
+    if (isFriends) {
+        req.scene = WXSceneTimeline;// 朋友圈
+    } else {
+        req.scene = WXSceneSession; // 好友
+    }
+    [WXApi sendReq:req];
+}
+
 + (instancetype)manager
 {
     static id manager = nil;

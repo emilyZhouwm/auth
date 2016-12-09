@@ -30,7 +30,7 @@
 + (NSString *)getUserName;
 + (NSString *)getUserAvatar;
 
-///  分享到微信好友
+///  分享链接到微信好友
 ///  @param title       标题，长度不能超过512字节
 ///  @param description 简要描述，长度不能超过1K
 ///  @param image       配一张缩略图，大小不能超过32K
@@ -41,10 +41,28 @@
               thumb:(UIImage *)image
                 url:(NSString *)url
              result:(WMShareBlock)result;
-/// 分享到微信朋友圈，参数同上
+/// 分享链接到微信朋友圈，参数同上
 + (void)shareFirends:(NSString *)title
                thumb:(UIImage *)image
                  url:(NSString *)url
               result:(WMShareBlock)result;
+/// 分享图片到微信
+///  @param image       大小不能超过10M
+///  @param isFriends   是否朋友圈
++ (void)shareImg:(NSData *)image
+           thumb:(UIImage *)thumb
+       isFriends:(BOOL)isFriends
+          result:(WMShareBlock)result;
+/// 分享文件给好友（音乐）
++ (void)shareFile:(NSData *)file
+           result:(WMShareBlock)result;
+/// 分享音乐到微信
+///  @param isFriends   是否朋友圈
++ (void)shareMusic:(NSString *)title
+               des:(NSString *)description
+             thumb:(UIImage *)image
+               url:(NSString *)url
+         isFriends:(BOOL)isFriends
+            result:(WMShareBlock)result;
 
 @end
