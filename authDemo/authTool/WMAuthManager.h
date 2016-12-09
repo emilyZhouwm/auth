@@ -11,10 +11,10 @@
 typedef NS_OPTIONS (NSInteger, WMAuthType) {
     WMAuthNone = 0,
     WMAuthTencent = 1 << 0,
-        WMAuthWeibo = 1 << 1,
-        WMAuthWeixin = 1 << 2,
-        WMAuthFacebook = 1 << 3,
-        WMAuthAll = WMAuthTencent | WMAuthWeibo | WMAuthWeixin | WMAuthFacebook,
+    WMAuthWeibo = 1 << 1,
+    WMAuthWeixin = 1 << 2,
+    WMAuthFacebook = 1 << 3,
+    WMAuthAll = WMAuthTencent | WMAuthWeibo | WMAuthWeixin | WMAuthFacebook,
 };
 
 ///  第三方授权回调

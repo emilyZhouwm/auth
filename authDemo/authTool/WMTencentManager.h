@@ -10,7 +10,8 @@
 
 #define QQAppID     @"1104592420"
 
-// Security.framework”, “libiconv.dylib”，“SystemConfiguration.framework”，“CoreGraphics.Framework”、“libsqlite3.dylib”、“CoreTelephony.framework”、“libstdc++.dylib”、“libz.dylib”
+// Security.framework”, “libiconv.dylib”，“SystemConfiguration.framework”，
+// “CoreGraphics.Framework”、“libsqlite3.dylib”、“CoreTelephony.framework”、“libstdc++.dylib”、“libz.dylib”
 
 @interface WMTencentManager : NSObject
 

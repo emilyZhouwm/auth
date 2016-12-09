@@ -13,7 +13,8 @@
 // iOS 应用推荐使用默认授权回调页
 #define kRedirectURI @"https://api.weibo.com/oauth2/default.html"
 
-//QuartzCore.framework 、 ImageIO.framework 、 SystemConfiguration.framework 、 Security.framework 、CoreTelephony.framework 、 CoreText.framework 、 UIKit.framework 、 Foundation.framework 和 CoreGraphics.framework
+// QuartzCore.framework 、 ImageIO.framework 、 SystemConfiguration.framework 、 Security.framework 、
+// CoreTelephony.framework 、 CoreText.framework 、 UIKit.framework 、 Foundation.framework 和 CoreGraphics.framework
 
 @interface WMWeiboManager : NSObject
 

@@ -1,4 +1,4 @@
-#微信、微博、QQ、facebook第三方授权、分享，获得昵称和头像。 
+#微信、微博、QQ、facebook第三方授权、分享，获得昵称和头像。
 
 ##配置上你自己在各个第三方申请到的ID。
 ####使用简单。
@@ -19,7 +19,7 @@
 
     1、
 	[WMAuthManager registerApp:WMAuthAll withApplication:application withOptions:launchOptions];
-    
+
     2、
     return [WMAuthManager handleOpenURL:url
                             application:application
@@ -49,36 +49,143 @@
 
 ```
 
-#9.0适配
-    <key>NSAppTransportSecurity</key>
+#跳转白名单
+<key>LSApplicationQueriesSchemes</key>
+<array>
+      <!-- QQ、Qzone URL Scheme 白名单-->
+      <string>mqqapi</string>
+  <string>wtloginmqq2</string>
+  <string>mqqopensdkapiV3</string>
+  <string>mqqwpa</string>
+  <string>mqqopensdkapiV2</string>
+  <string>mqqOpensdkSSoLogin</string>
+  <string>mqq</string>
+  <string>mqzoneopensdkapiV2</string>
+  <string>mqzoneopensdkapi19</string>
+  <string>mqzoneopensdkapi</string>
+  <string>mqzoneopensdk</string>
+  <string>mqzone</string>
+      <!-- 新浪微博 URL Scheme 白名单-->
+  <string>sinaweibohd</string>
+  <string>sinaweibo</string>
+      <string>sinaweibosso</string>
+  <string>weibosdk</string>
+  <string>weibosdk2.5</string>
+      <!-- 微信 URL Scheme 白名单-->
+  <string>weixin</string>
+  <string>wechat</string>
+      <!-- Facebook URL Scheme 白名单-->
+      <string>fbapi</string>
+      <string>fb-messenger-api</string>
+      <string>fbauth</string>
+      <string>fbauth2</string>
+      <string>fbshareextension</string>
+</array>
+
+#ATS白名单
+<key>NSAllowsArbitraryLoadsInWebContent</key>
+<true/>
+<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSExceptionDomains</key>
     <dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
+        <!-- 集成微信对应的HTTP白名单-->
+        <key>qlogo.cn</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+            <false/>
+        </dict>
+        <!-- 集成新浪微博对应的HTTP白名单-->
+        <key>sina.cn</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSExceptionMinimumTLSVersion</key>
+            <string>TLSv1.0</string>
+            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+            <false/>
+        </dict>
+        <key>weibo.cn</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSExceptionMinimumTLSVersion</key>
+            <string>TLSv1.0</string>
+            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+            <false/>
+        </dict>
+        <key>weibo.com</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+            <key>NSExceptionMinimumTLSVersion</key>
+            <string>TLSv1.0</string>
+            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+            <false/>
+        </dict>
+        <key>sinaimg.cn</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+            <key>NSExceptionMinimumTLSVersion</key>
+            <string>TLSv1.0</string>
+            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+            <false/>
+        </dict>
+        <key>sinajs.cn</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+            <key>NSExceptionMinimumTLSVersion</key>
+            <string>TLSv1.0</string>
+            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+            <false/>
+        </dict>
+        <key>sina.com.cn</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+            <key>NSExceptionMinimumTLSVersion</key>
+            <string>TLSv1.0</string>
+            <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+            <false/>
+        </dict>
+        <!-- 集成Facebook授权对应的HTTP白名单-->
+        <key>facebook.com</key>
+        <dict>
+            <key>NSExceptionRequiresForwardSecrecy</key>
+            <false/>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+        </dict>
+        <key>fbcdn.net</key>
+        <dict>
+            <key>NSExceptionRequiresForwardSecrecy</key>
+            <false/>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+        </dict>
+        <key>akamaihd.net</key>
+        <dict>
+            <key>NSIncludesSubdomains</key>
+            <true/>
+            <key>NSExceptionRequiresForwardSecrecy</key>
+            <false/>
+        </dict>
     </dict>
-
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-    <string>mqqapi</string>
-    <string>wtloginmqq2</string>
-    <string>mqqopensdkapiV3</string>
-    <string>mqqwpa</string>
-    <string>mqqopensdkapiV2</string>
-    <string>mqqOpensdkSSoLogin</string>
-    <string>mqq</string>
-    <string>mqzoneopensdkapiV2</string>
-    <string>mqzoneopensdkapi19</string>
-    <string>mqzoneopensdkapi</string>
-    <string>mqzoneopensdk</string>
-    <string>mqzone</string>
-    <string>sinaweibohd</string>
-    <string>sinaweibo</string>
-    <string>weibosdk</string>
-    <string>weibosdk2.5</string>
-    <string>weixin</string>
-    <string>wechat</string>
-    <string>fbauth</string>
-    </array>
-
+</dict>
 有一个问题需要注意：如果你的工程使用了Aspects，那么需要检查用户手机是否安装QQ，否则弹QQ SDK提供的web登录授权时，Aspects会抛出一个异常，造成闪退
 
 ```
@@ -86,24 +193,24 @@
     ///  @param authType 四者其一
     ///  @return 安装返回true，未安装返回false
     + (BOOL)isAppInstalled:(WMAuthType)authType;
-    
+
     ///  1、注册第三方
     ///  @param authType      四者皆可WMAuthAll
     ///  @param application   facebook专用
     + (void)registerApp:(WMAuthType)authType
         withApplication:(UIApplication *)application
         withOptions:(NSDictionary *)launchOptions;
-    
+
     ///  2、第三方回调响应
     ///  @param application     facebook专用
     + (BOOL)handleOpenURL:(NSURL *)url
               application:(UIApplication *)application
         sourceApplication:(NSString *)sourceApplication
                annotation:(id)annotation;
-    
+
     ///  3、恢复状态，facebook专用
     + (void)activateApp;
-    
+
     ///  4、发起对应第三方授权，目的是第三方授权登录或者第三方绑定
     ///  @param authType 四种其一
     ///  @param result   登录回调block，成功返回TRUE和ID，失败返回FALSE和错误信息
@@ -122,7 +229,7 @@
     + (void)sendAuthType:(WMAuthType)authType
                withBlock:(WMAuthBlock)result
           withController:(UIViewController *)vc;
-    
+
     ///  5、分享到对应第三方
     ///  @param authType    四种其一，以下参数的limit详见各自接口描述
     ///  @param title       标题
