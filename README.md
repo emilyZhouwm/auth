@@ -1,7 +1,7 @@
-#微信、微博、QQ、facebook第三方授权、分享，获得昵称和头像。
+# 微信、微博、QQ、facebook第三方授权、分享，获得昵称和头像。
 
-##配置上你自己在各个第三方申请到的ID。
-####使用简单。
+## 配置上你自己在各个第三方申请到的ID。
+#### 使用简单。
 
 ![](./facebook.gif)
 ![](./1.jpg)
@@ -49,31 +49,31 @@
 
 ```
 
-#跳转白名单
+# 跳转白名单
 <key>LSApplicationQueriesSchemes</key>
 <array>
       <!-- QQ、Qzone URL Scheme 白名单-->
       <string>mqqapi</string>
-  <string>wtloginmqq2</string>
-  <string>mqqopensdkapiV3</string>
-  <string>mqqwpa</string>
-  <string>mqqopensdkapiV2</string>
-  <string>mqqOpensdkSSoLogin</string>
-  <string>mqq</string>
-  <string>mqzoneopensdkapiV2</string>
-  <string>mqzoneopensdkapi19</string>
-  <string>mqzoneopensdkapi</string>
-  <string>mqzoneopensdk</string>
-  <string>mqzone</string>
+      <string>wtloginmqq2</string>
+      <string>mqqopensdkapiV3</string>
+      <string>mqqwpa</string>
+      <string>mqqopensdkapiV2</string>
+      <string>mqqOpensdkSSoLogin</string>
+      <string>mqq</string>
+      <string>mqzoneopensdkapiV2</string>
+      <string>mqzoneopensdkapi19</string>
+      <string>mqzoneopensdkapi</string>
+      <string>mqzoneopensdk</string>
+      <string>mqzone</string>
       <!-- 新浪微博 URL Scheme 白名单-->
-  <string>sinaweibohd</string>
-  <string>sinaweibo</string>
+      <string>sinaweibohd</string>
+      <string>sinaweibo</string>
       <string>sinaweibosso</string>
-  <string>weibosdk</string>
-  <string>weibosdk2.5</string>
+      <string>weibosdk</string>
+      <string>weibosdk2.5</string>
       <!-- 微信 URL Scheme 白名单-->
-  <string>weixin</string>
-  <string>wechat</string>
+      <string>weixin</string>
+      <string>wechat</string>
       <!-- Facebook URL Scheme 白名单-->
       <string>fbapi</string>
       <string>fb-messenger-api</string>
@@ -82,7 +82,7 @@
       <string>fbshareextension</string>
 </array>
 
-#ATS白名单
+# ATS白名单
 <key>NSAllowsArbitraryLoadsInWebContent</key>
 <true/>
 <key>NSAppTransportSecurity</key>
@@ -186,7 +186,8 @@
         </dict>
     </dict>
 </dict>
-有一个问题需要注意：如果你的工程使用了Aspects，那么需要检查用户手机是否安装QQ，否则弹QQ SDK提供的web登录授权时，Aspects会抛出一个异常，造成闪退
+
+有一个问题需要注意：如果你的工程使用了Aspects，那么需要检查用户手机是否安装QQ，否则弹QQ SDK提供的web登录授权时，Aspects会抛出一个异常，造成闪退(这个问题貌似在更新qq SDK后好了)
 
 ```
     ///  0、用户手机是否安装对应第三方
